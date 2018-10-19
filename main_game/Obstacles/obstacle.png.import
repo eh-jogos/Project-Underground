@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/marmota.png-da77bfb2d8ddee033b670ee30c765de8.stex"
+path="res://.import/obstacle.png-7ecccc4e704de48205b57b5ea5b6d968.stex"
 
 [deps]
 
-source_file="res://main_game/pngs/marmota.png"
-dest_files=[ "res://.import/marmota.png-da77bfb2d8ddee033b670ee30c765de8.stex" ]
+source_file="res://main_game/Obstacles/obstacle.png"
+dest_files=[ "res://.import/obstacle.png-7ecccc4e704de48205b57b5ea5b6d968.stex" ]
 
 [params]
 

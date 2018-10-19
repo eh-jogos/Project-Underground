@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/water.png-22339b9b69939e101c2a851936a280bb.stex"
+path="res://.import/touch_area.png-bb212261451bca3035123e3fdd2adf8b.stex"
 
 [deps]
 
-source_file="res://main_game/pngs/water.png"
-dest_files=[ "res://.import/water.png-22339b9b69939e101c2a851936a280bb.stex" ]
+source_file="res://main_game/Levels/touch_area.png"
+dest_files=[ "res://.import/touch_area.png-bb212261451bca3035123e3fdd2adf8b.stex" ]
 
 [params]
 

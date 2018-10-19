@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/obstacle.png-5cf534de84641fc7fa529c1234074c00.stex"
+path="res://.import/water.png-fe2d4129d4ab2460a675173a373a810d.stex"
 
 [deps]
 
-source_file="res://main_game/pngs/obstacle.png"
-dest_files=[ "res://.import/obstacle.png-5cf534de84641fc7fa529c1234074c00.stex" ]
+source_file="res://main_game/Levels/water.png"
+dest_files=[ "res://.import/water.png-fe2d4129d4ab2460a675173a373a810d.stex" ]
 
 [params]
 

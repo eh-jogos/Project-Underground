@@ -8,8 +8,11 @@ export var starting_lives = 3
 
 var lives
 var player_position
+var coffee_timer
+var power_up_increment
 
 var is_tracking_on = false
+var is_accelerating = false
 var falloff_speed = 0
 var falloff_multiplyer = 1
 
@@ -18,6 +21,7 @@ var falloff_multiplyer = 1
 func _ready():
 	set_physics_process(true)
 	lives = starting_lives-1
+	coffee_timer = $CoffeeTimer
 
 func _physics_process(delta):
 	if lives >= 0:
@@ -41,7 +45,8 @@ func process_movement():
 	
 	linear_velocity.y = update_falloff_speed()
 	
-	print("Linear Velocity: %s"%[linear_velocity])
+	#print("Linear Velocity: %s"%[linear_velocity])
+	#print("FallOff Multiplyer: %s"%[falloff_multiplyer])
 	
 	return linear_velocity
 
@@ -62,10 +67,27 @@ func track_mouse():
 	return horizontal_delta
 
 func update_falloff_speed():
-	falloff_speed -= deceleration * falloff_multiplyer
-	falloff_speed = clamp(falloff_speed, -max_falloff_speed * falloff_multiplyer, falloff_speed) 
+	if is_accelerating:
+		falloff_speed += deceleration * falloff_multiplyer
+		falloff_speed = clamp(falloff_speed, falloff_speed, max_falloff_speed * falloff_multiplyer)
+	else:
+		falloff_speed -= deceleration * falloff_multiplyer
+		falloff_speed = clamp(falloff_speed, -max_falloff_speed * falloff_multiplyer, falloff_speed)
 	
 	return falloff_speed
+
+
+func enable_cofee_power_up(value, duration):
+	is_accelerating = true
+	power_up_increment = value
+	set_falloff_multiplyer(power_up_increment)
+	coffee_timer.wait_time = duration
+	coffee_timer.start()
+
+func _on_CoffeeTimer_timeout():
+	#print("Coffee Timeout")
+	is_accelerating = false
+	set_falloff_multiplyer(-power_up_increment)
 
 
 func _on_ControlStrip_button_down():
@@ -74,9 +96,9 @@ func _on_ControlStrip_button_down():
 func _on_ControlStrip_button_up():
 	is_tracking_on = false
 
+
 func get_falloff_multiplyer():
 	return falloff_multiplyer
 
 func set_falloff_multiplyer(value):
 	falloff_multiplyer += value
-

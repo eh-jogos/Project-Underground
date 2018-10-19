@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://main_game/scripts/RockObstacle.gd" type="Script" id=1]
-[ext_resource path="res://main_game/pngs/obstacle.png" type="Texture" id=2]
+[ext_resource path="res://main_game/Obstacles/RockObstacle.gd" type="Script" id=1]
+[ext_resource path="res://main_game/Obstacles/obstacle.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -12,8 +12,7 @@ extents = Vector2( 171, 92 )
 "obstacles",
 ]]
 
-editor/display_folded = true
-input_pickable = true
+input_pickable = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
@@ -21,19 +20,19 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
-speed = -10
-deceleration_multiplyer = 10
+_sections_unfolded = [ "Pickable" ]
+deceleration_multiplyer = 6
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+[node name="CollisionArea" type="CollisionShape2D" parent="." index="1"]
 
 shape = SubResource( 1 )
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." index="2"]
+[node name="VisibilityCheck" type="VisibilityNotifier2D" parent="." index="2"]
 
 position = Vector2( -1.00001, -2 )
 scale = Vector2( 17.7, 9.5 )
@@ -43,8 +42,8 @@ rect = Rect2( -10, -10, 20, 20 )
 
 [connection signal="body_exited" from="." to="." method="_on_RockObstacle_body_exited"]
 
-[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="screen_entered" from="VisibilityCheck" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="screen_exited" from="VisibilityCheck" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 
 
