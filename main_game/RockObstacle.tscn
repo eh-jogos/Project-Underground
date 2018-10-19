@@ -8,8 +8,11 @@
 custom_solver_bias = 0.0
 extents = Vector2( 171, 92 )
 
-[node name="RockObstacle" type="Area2D" index="0"]
+[node name="RockObstacle" type="Area2D" groups=[
+"obstacles",
+]]
 
+editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -19,6 +22,7 @@ audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
 speed = -10
+deceleration_multiplyer = 10
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
@@ -31,7 +35,13 @@ shape = SubResource( 1 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." index="2"]
 
+position = Vector2( -1.00001, -2 )
+scale = Vector2( 17.7, 9.5 )
 rect = Rect2( -10, -10, 20, 20 )
+
+[connection signal="body_entered" from="." to="." method="_on_RockObstacle_body_entered"]
+
+[connection signal="body_exited" from="." to="." method="_on_RockObstacle_body_exited"]
 
 [connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 

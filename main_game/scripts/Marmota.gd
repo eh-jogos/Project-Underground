@@ -2,31 +2,35 @@ extends KinematicBody2D
 
 export var movement_sensitivity = 100 
 export var min_horizontal_speed = 100
+export var deceleration = 2
+export var max_falloff_speed = 10
 export var starting_lives = 3
 
-var parent
-var lives_positions
 var lives
+var player_position
 
 var is_tracking_on = false
-var player_position
+var falloff_speed = 0
+var falloff_multiplyer = 1
 
 #### Engine Methods ####
 
 func _ready():
 	set_physics_process(true)
-	parent = self.get_parent()
 	lives = starting_lives-1
 
 func _physics_process(delta):
 	if lives >= 0:
-		process_collision()
-		process_movement()
+		var collision = self.move_and_collide(process_movement()*delta)
+		if collision:
+			process_collision(collision)
 
 #### Class Methods ####
 
-func process_collision():
-	pass
+func process_collision(collision):
+	if collision.collider.is_in_group("water"):
+		#self.get_tree().paused = true
+		self.get_tree().reload_current_scene()
 
 func process_movement():
 	var linear_velocity = Vector2(0,0)
@@ -35,9 +39,11 @@ func process_movement():
 	if is_tracking_on:
 		linear_velocity.x = track_mouse()
 	
-	linear_velocity.y = track_lives()
+	linear_velocity.y = update_falloff_speed()
 	
-	self.move_and_slide(linear_velocity)
+	print("Linear Velocity: %s"%[linear_velocity])
+	
+	return linear_velocity
 
 func track_mouse():
 	var mouse_position = get_viewport().get_mouse_position()
@@ -55,18 +61,11 @@ func track_mouse():
 	
 	return horizontal_delta
 
-func track_lives():
-	var vertical_delta
+func update_falloff_speed():
+	falloff_speed -= deceleration * falloff_multiplyer
+	falloff_speed = clamp(falloff_speed, -max_falloff_speed * falloff_multiplyer, falloff_speed) 
 	
-	var next_position = parent.get_lives_position(lives)
-	vertical_delta = next_position - player_position.y
-	
-	if vertical_delta < 0:
-		vertical_delta = -150
-	else:
-		vertical_delta = 0
-	
-	return vertical_delta
+	return falloff_speed
 
 
 func _on_ControlStrip_button_down():
@@ -74,4 +73,10 @@ func _on_ControlStrip_button_down():
 
 func _on_ControlStrip_button_up():
 	is_tracking_on = false
+
+func get_falloff_multiplyer():
+	return falloff_multiplyer
+
+func set_falloff_multiplyer(value):
+	falloff_multiplyer += value
 

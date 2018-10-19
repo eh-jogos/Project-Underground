@@ -6,6 +6,7 @@ var lanes
 var num_of_lanes
 
 func _ready():
+	randomize()
 	lanes = $Lanes.get_children()
 	num_of_lanes = $Lanes.get_child_count()
 
