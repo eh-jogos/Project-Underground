@@ -1,25 +1,29 @@
 extends Node2D
 
-onready var rock_obstacle = preload("res://main_game/Obstacles/RockObstacle.tscn")
-onready var power_up_coffee = preload("res://main_game/PowerUps/PowerUpCofee.tscn")
-
 export var base_speed = -10
 
 var lanes
 var num_of_lanes
+var obstacles
+var powerups
 
 func _ready():
 	randomize()
 	lanes = $Lanes.get_children()
 	num_of_lanes = $Lanes.get_child_count()
+	obstacles = $ObstacleList.get_resource_list()
+	powerups = $PowerUpList.get_resource_list()
 
 
 func _on_ObstacleSpawner_timeout():
-	spawn_object(rock_obstacle)
-
+	var rand_choice = obstacles[randi() % obstacles.size()]
+	var obstacle = $ObstacleList.get_resource(rand_choice)
+	spawn_object(obstacle)
+	
 func _on_PowerUpSpawner_timeout():
-	spawn_object(power_up_coffee)
-
+	var rand_choice = powerups[randi() % powerups.size()]
+	var powerup = $PowerUpList.get_resource(rand_choice)
+	spawn_object(powerup)
 
 func spawn_object(object):
 	var node = object.instance()
