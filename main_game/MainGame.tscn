@@ -28,7 +28,6 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 540, 540 )
 movement_sensitivity = 30
 min_horizontal_speed = 3000
-max_vertical_speed = 10
 
 [node name="ObjectGenerator" type="Node2D" parent="." index="2"]
 
