@@ -72,7 +72,7 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Animation", "Color", "Gravi
 custom_solver_bias = 0.0
 extents = Vector2( 81.8326, 63.3689 )
 
-[node name="CofeePowerUp" type="Area2D" index="0" groups=[
+[node name="CofeePowerUp" type="Area2D" groups=[
 "obstacles",
 ]]
 
