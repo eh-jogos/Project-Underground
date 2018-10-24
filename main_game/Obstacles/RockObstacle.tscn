@@ -8,7 +8,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 171, 92 )
 
-[node name="RockObstacle" type="Area2D" groups=[
+[node name="RockObstacle" type="Area2D" index="0" groups=[
 "obstacles",
 ]]
 
@@ -21,7 +21,7 @@ audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pickable" ]
-deceleration_multiplyer = 6
+deceleration_multiplyer = 36
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 

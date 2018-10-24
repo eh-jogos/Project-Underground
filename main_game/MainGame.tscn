@@ -26,13 +26,15 @@ _sections_unfolded = [ "Transform" ]
 ] instance=ExtResource( 2 )]
 
 position = Vector2( 540, 540 )
+movement_sensitivity = 30
+min_horizontal_speed = 3000
 
 [node name="ObjectGenerator" type="Node2D" parent="." index="2"]
 
 position = Vector2( 540, 2016 )
 script = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Z Index" ]
-base_speed = -10
+base_speed = -25
 
 [node name="ObstacleList" type="ResourcePreloader" parent="ObjectGenerator" index="0"]
 
@@ -44,6 +46,7 @@ resources = [ PoolStringArray( "PowerUpCofee" ), [ ExtResource( 5 ) ] ]
 
 [node name="Lanes" type="Node2D" parent="ObjectGenerator" index="2"]
 
+editor/display_folded = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="Lane1" type="Position2D" parent="ObjectGenerator/Lanes" index="0"]
@@ -71,14 +74,14 @@ autostart = true
 [node name="ObstacleSpawner2" type="Timer" parent="ObjectGenerator" index="4"]
 
 process_mode = 1
-wait_time = 3.0
+wait_time = 2.5
 one_shot = false
 autostart = true
 
 [node name="PowerUpSpawner" type="Timer" parent="ObjectGenerator" index="5"]
 
 process_mode = 1
-wait_time = 7.0
+wait_time = 8.0
 one_shot = false
 autostart = true
 
