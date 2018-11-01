@@ -1,0 +1,246 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://main_game/Obstacles/WormRedirector.gd" type="Script" id=1]
+[ext_resource path="res://main_game/PowerUps/cofee.png" type="Texture" id=2]
+
+[sub_resource type="Curve2D" id=2]
+
+bake_interval = 5.0
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -351.425, -0.0777588, 0, 0, 0, 0, 358.009, -0.0777588 )
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 175.83, 92 )
+
+[sub_resource type="Animation" id=3]
+
+resource_name = "base"
+length = 0.01
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:unit_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WormObstacle/worm:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("WormObstacle/worm:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+
+resource_name = "dead"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("WormObstacle/worm:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.558005 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WormObstacle/worm:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -14.2 ]
+}
+
+[sub_resource type="Animation" id=5]
+
+resource_name = "die"
+length = 1.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("WormObstacle/worm:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.08106, 1 ), Vector2( 1, 1 ), Vector2( 1, 1.14723 ), Vector2( 1, 1 ), Vector2( 1.08106, 1 ), Vector2( 1, 1 ), Vector2( 1, 1.14723 ), Vector2( 1, 1 ), Vector2( 1.08106, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WormObstacle/worm:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 4.7, -9.4, 6.5, -7.3, 6.5, -9.7, 6.9, -9.8, 9.2, 0.0 ]
+}
+
+[sub_resource type="Animation" id=6]
+
+resource_name = "walk"
+length = 5.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:unit_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.99 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WormObstacle/worm:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("WormObstacle/worm:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[node name="WormPath" type="Path2D"]
+
+self_modulate = Color( 0.5, 0.6, 1, 0.7 )
+curve = SubResource( 2 )
+script = ExtResource( 1 )
+_sections_unfolded = [ "Pickable" ]
+deceleration_multiplyer = 36
+
+[node name="tunnel" type="Sprite" parent="." index="0"]
+
+modulate = Color( 0.277344, 0.186611, 0.132172, 1 )
+scale = Vector2( 3, 1.25 )
+z_as_relative = false
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
+
+[node name="VisibilityCheck" type="VisibilityNotifier2D" parent="." index="1"]
+
+visible = false
+position = Vector2( 0.207167, -2 )
+scale = Vector2( 53.4626, 9.5 )
+rect = Rect2( -10, -10, 20, 20 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="." index="2"]
+
+position = Vector2( 300.956, -0.0777588 )
+z_index = 3
+z_as_relative = false
+offset = 650.789
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = true
+lookahead = 4.0
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="WormObstacle" type="Area2D" parent="PathFollow2D" index="0"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Transform" ]
+
+[node name="worm" type="Sprite" parent="PathFollow2D/WormObstacle" index="0"]
+
+modulate = Color( 0.886719, 0.655947, 0.602692, 1 )
+position = Vector2( 0.00833357, 0.147854 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="CollisionArea" type="CollisionShape2D" parent="PathFollow2D/WormObstacle" index="1"]
+
+shape = SubResource( 1 )
+
+[node name="PathAnimator" type="AnimationPlayer" parent="PathFollow2D/WormObstacle" index="2"]
+
+root_node = NodePath("../..")
+autoplay = "walk"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/base = SubResource( 3 )
+anims/dead = SubResource( 4 )
+anims/die = SubResource( 5 )
+anims/walk = SubResource( 6 )
+blend_times = [  ]
+
+[connection signal="screen_entered" from="VisibilityCheck" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+
+[connection signal="screen_exited" from="VisibilityCheck" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+
+[connection signal="body_entered" from="PathFollow2D/WormObstacle" to="." method="_on_WormObstacle_body_entered"]
+
+[connection signal="body_exited" from="PathFollow2D/WormObstacle" to="." method="_on_WormObstacle_body_exited"]
+
+

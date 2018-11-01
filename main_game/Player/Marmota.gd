@@ -10,6 +10,7 @@ var coffee_timer
 var power_up_increment
 
 var is_tracking_on = false
+var restrain_movement = false
 var falloff_speed = 0
 var falloff_multiplyer = 1
 var acceleration = abs(deceleration)
@@ -37,12 +38,12 @@ func process_movement():
 	var linear_velocity = Vector2(0,0)
 	player_position = self.position
 	
-	if is_tracking_on:
+	if is_tracking_on and not restrain_movement:
 		linear_velocity.x = track_mouse()
 	
 	linear_velocity.y = update_falloff_speed()
 	
-	print("Linear Velocity: %s"%[linear_velocity])
+	#print("Linear Velocity: %s"%[linear_velocity])
 	#print("FallOff Multiplyer: %s"%[falloff_multiplyer])
 	
 	return linear_velocity
@@ -99,3 +100,9 @@ func get_acceleration_multiplyer():
 
 func set_acceleration_multiplyer(value):
 	acceleration_multiplyer += value
+
+func reset_acceleration_multiplyer():
+	acceleration_multiplyer = 0
+
+func toggle_movement_restraint(option):
+	restrain_movement = option

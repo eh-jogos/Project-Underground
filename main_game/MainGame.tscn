@@ -1,19 +1,21 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://main_game/Levels/earth.png" type="Texture" id=1]
 [ext_resource path="res://main_game/Player/Marmota.tscn" type="PackedScene" id=2]
 [ext_resource path="res://main_game/ObjectGenerator.gd" type="Script" id=3]
-[ext_resource path="res://main_game/Obstacles/RockObstacle.tscn" type="PackedScene" id=4]
-[ext_resource path="res://main_game/PowerUps/PowerUpCofee.tscn" type="PackedScene" id=5]
-[ext_resource path="res://main_game/Levels/water.png" type="Texture" id=6]
-[ext_resource path="res://main_game/Levels/touch_area.png" type="Texture" id=7]
+[ext_resource path="res://main_game/Obstacles/ExplosiveObstacle.tscn" type="PackedScene" id=4]
+[ext_resource path="res://main_game/Obstacles/RockObstacle.tscn" type="PackedScene" id=5]
+[ext_resource path="res://main_game/Obstacles/WormObstacle.tscn" type="PackedScene" id=6]
+[ext_resource path="res://main_game/PowerUps/PowerUpCofee.tscn" type="PackedScene" id=7]
+[ext_resource path="res://main_game/Levels/water.png" type="Texture" id=8]
+[ext_resource path="res://main_game/Levels/touch_area.png" type="Texture" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 571, 135 )
 
-[node name="MainGame" type="Node2D" index="0"]
+[node name="MainGame" type="Node2D"]
 
 [node name="Background" type="Sprite" parent="." index="0"]
 
@@ -26,6 +28,7 @@ _sections_unfolded = [ "Transform" ]
 ] instance=ExtResource( 2 )]
 
 position = Vector2( 540, 540 )
+_sections_unfolded = [ "Transform", "Z Index" ]
 movement_sensitivity = 30
 min_horizontal_speed = 3000
 
@@ -38,15 +41,18 @@ base_speed = -25
 
 [node name="ObstacleList" type="ResourcePreloader" parent="ObjectGenerator" index="0"]
 
-resources = [ PoolStringArray( "RockObstacle" ), [ ExtResource( 4 ) ] ]
+resources = [ PoolStringArray( "ExplosiveObstacle", "RockObstacle" ), [ ExtResource( 4 ), ExtResource( 5 ) ] ]
 
-[node name="PowerUpList" type="ResourcePreloader" parent="ObjectGenerator" index="1"]
+[node name="LongObstacleList" type="ResourcePreloader" parent="ObjectGenerator" index="1"]
 
-resources = [ PoolStringArray( "PowerUpCofee" ), [ ExtResource( 5 ) ] ]
+resources = [ PoolStringArray( "WormObstacle" ), [ ExtResource( 6 ) ] ]
 
-[node name="Lanes" type="Node2D" parent="ObjectGenerator" index="2"]
+[node name="PowerUpList" type="ResourcePreloader" parent="ObjectGenerator" index="2"]
 
-editor/display_folded = true
+resources = [ PoolStringArray( "PowerUpCofee" ), [ ExtResource( 7 ) ] ]
+
+[node name="Lanes" type="Node2D" parent="ObjectGenerator" index="3"]
+
 _sections_unfolded = [ "Transform" ]
 
 [node name="Lane1" type="Position2D" parent="ObjectGenerator/Lanes" index="0"]
@@ -64,21 +70,28 @@ _sections_unfolded = [ "Transform" ]
 position = Vector2( 356, -96 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="ObstacleSpawner1" type="Timer" parent="ObjectGenerator" index="3"]
+[node name="ObstacleSpawner1" type="Timer" parent="ObjectGenerator" index="4"]
 
 process_mode = 1
 wait_time = 1.5
 one_shot = false
 autostart = true
 
-[node name="ObstacleSpawner2" type="Timer" parent="ObjectGenerator" index="4"]
+[node name="ObstacleSpawner2" type="Timer" parent="ObjectGenerator" index="5"]
 
 process_mode = 1
 wait_time = 2.5
 one_shot = false
 autostart = true
 
-[node name="PowerUpSpawner" type="Timer" parent="ObjectGenerator" index="5"]
+[node name="LongObstacleSpawner1" type="Timer" parent="ObjectGenerator" index="6"]
+
+process_mode = 1
+wait_time = 4.8
+one_shot = false
+autostart = true
+
+[node name="PowerUpSpawner" type="Timer" parent="ObjectGenerator" index="7"]
 
 process_mode = 1
 wait_time = 8.0
@@ -91,6 +104,8 @@ autostart = true
 
 editor/display_folded = true
 position = Vector2( 540, 99 )
+z_index = 5
+z_as_relative = false
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
@@ -98,11 +113,11 @@ constant_linear_velocity = Vector2( 0, 0 )
 constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Transform", "Z Index" ]
 
 [node name="Sprite" type="Sprite" parent="Water" index="0"]
 
-texture = ExtResource( 6 )
+texture = ExtResource( 8 )
 _sections_unfolded = [ "Offset" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Water" index="1"]
@@ -110,9 +125,16 @@ _sections_unfolded = [ "Offset" ]
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="UI" type="Control" parent="." index="4"]
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="4"]
 
-editor/display_folded = true
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="UI" type="Control" parent="CanvasLayer" index="0"]
+
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -125,13 +147,13 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-_sections_unfolded = [ "Margin" ]
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Visibility" ]
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true
 }
 
-[node name="ControlStrip" type="TextureButton" parent="UI" index="0"]
+[node name="ControlStrip" type="TextureButton" parent="CanvasLayer/UI" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -152,17 +174,19 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 7 )
+texture_normal = ExtResource( 9 )
 _sections_unfolded = [ "Margin", "Rect", "Textures" ]
 
 [connection signal="timeout" from="ObjectGenerator/ObstacleSpawner1" to="ObjectGenerator" method="_on_ObstacleSpawner_timeout"]
 
 [connection signal="timeout" from="ObjectGenerator/ObstacleSpawner2" to="ObjectGenerator" method="_on_ObstacleSpawner_timeout"]
 
+[connection signal="timeout" from="ObjectGenerator/LongObstacleSpawner1" to="ObjectGenerator" method="_on_LongObstacleSpawner_timeout"]
+
 [connection signal="timeout" from="ObjectGenerator/PowerUpSpawner" to="ObjectGenerator" method="_on_PowerUpSpawner_timeout"]
 
-[connection signal="button_down" from="UI/ControlStrip" to="Marmota" method="_on_ControlStrip_button_down"]
+[connection signal="button_down" from="CanvasLayer/UI/ControlStrip" to="Marmota" method="_on_ControlStrip_button_down"]
 
-[connection signal="button_up" from="UI/ControlStrip" to="Marmota" method="_on_ControlStrip_button_up"]
+[connection signal="button_up" from="CanvasLayer/UI/ControlStrip" to="Marmota" method="_on_ControlStrip_button_up"]
 
 

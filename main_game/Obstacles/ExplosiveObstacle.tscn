@@ -1,0 +1,165 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://main_game/Obstacles/ExplosiveObstacle.gd" type="Script" id=1]
+[ext_resource path="res://main_game/PowerUps/cofee.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=2]
+
+resource_name = "blink"
+length = 0.9
+loop = true
+step = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.015625, 0.246338, 1 ), Color( 0.1875, 0.0307617, 0.0307617, 1 ), Color( 0.804688, 0.261116, 0.0722961, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../CollisionArea:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.580056, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+
+resource_name = "blow_up"
+length = 0.2
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("../CollisionArea:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.580056, 1 ), Vector2( 1.16011, 2 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_on_Explosion_end"
+} ]
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 100.235, 92 )
+
+[node name="ExplosiveObstacle" type="Area2D" index="0" groups=[
+"obstacles",
+]]
+
+z_index = 3
+z_as_relative = false
+input_pickable = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Pickable", "Z Index" ]
+deceleration_multiplyer = 100
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+modulate = Color( 1, 1, 1, 0 )
+scale = Vector2( 1.16011, 2 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite" index="0"]
+
+root_node = NodePath("..")
+autoplay = "blink"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/blink = SubResource( 2 )
+anims/blow_up = SubResource( 3 )
+blend_times = [  ]
+
+[node name="CollisionArea" type="CollisionShape2D" parent="." index="1"]
+
+visible = false
+shape = SubResource( 1 )
+disabled = true
+
+[node name="VisibilityCheck" type="VisibilityNotifier2D" parent="." index="2"]
+
+visible = false
+position = Vector2( -1.00001, -2 )
+scale = Vector2( 10.425, 9.5 )
+rect = Rect2( -10, -10, 20, 20 )
+
+[connection signal="body_entered" from="." to="." method="_on_ExplosiveObstacle_body_entered"]
+
+[connection signal="screen_entered" from="VisibilityCheck" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+
+[connection signal="screen_exited" from="VisibilityCheck" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+
+
