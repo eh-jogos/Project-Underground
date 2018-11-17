@@ -15,7 +15,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 571, 135 )
 
-[node name="MainGame" type="Node2D"]
+[node name="MainGame" type="Node2D" index="0"]
 
 [node name="Background" type="Sprite" parent="." index="0"]
 
@@ -41,7 +41,7 @@ base_speed = -25
 
 [node name="ObstacleList" type="ResourcePreloader" parent="ObjectGenerator" index="0"]
 
-resources = [ PoolStringArray( "ExplosiveObstacle", "RockObstacle" ), [ ExtResource( 4 ), ExtResource( 5 ) ] ]
+resources = [ PoolStringArray( "ExplosiveObstacle", "RockObstacle", "RockObstacle 2", "RockObstacle 3", "RockObstacle 4", "RockObstacle 5" ), [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ) ] ]
 
 [node name="LongObstacleList" type="ResourcePreloader" parent="ObjectGenerator" index="1"]
 
@@ -87,7 +87,7 @@ autostart = true
 [node name="LongObstacleSpawner1" type="Timer" parent="ObjectGenerator" index="6"]
 
 process_mode = 1
-wait_time = 4.8
+wait_time = 7.0
 one_shot = false
 autostart = true
 
