@@ -25,6 +25,12 @@ window/handheld/emulate_touchscreen=true
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Obstacles"
+2d_physics/layer_3="Power Ups"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"

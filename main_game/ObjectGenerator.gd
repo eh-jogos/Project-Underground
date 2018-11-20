@@ -30,8 +30,9 @@ func _on_LongObstacleSpawner_timeout():
 
 func _on_PowerUpSpawner_timeout():
 	var rand_choice = powerups[randi() % powerups.size()]
-	var powerup = $PowerUpList.get_resource(rand_choice)
-	spawn_object(powerup)
+	for powerup in powerups: 
+		var object = $PowerUpList.get_resource(powerup)
+		spawn_object(object)
 
 func spawn_object(object, is_it_long = false):
 	var node = object.instance()

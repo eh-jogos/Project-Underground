@@ -20,6 +20,8 @@ func _on_CofeePowerUp_body_entered(body):
 	if body.is_in_group("player"):
 		body.enable_cofee_power_up(acceleration_multiplyer, duration)
 		queue_free()
+	else:
+		print("BODY ISN'T PLAYER: %s"%[body.name])
 
 
 

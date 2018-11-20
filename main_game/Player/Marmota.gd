@@ -1,31 +1,24 @@
 extends KinematicBody2D
 
-export var movement_sensitivity = 100 
-export var min_horizontal_speed = 100
-export var deceleration = 2
-export var max_vertical_speed = 10
+export(int) var movement_sensitivity = 100 
+export(int) var min_horizontal_speed = 100
+export(int) var deceleration = 2
+export(int) var max_vertical_speed = 10
+
+var coffee_timer
+var drill
 
 var player_position
-var coffee_timer
 var power_up_increment
 
 var is_tracking_on = false
 var restrain_movement = false
+var is_holding_drill = false
 var falloff_speed = 0
 var falloff_multiplyer = 1
 var acceleration = abs(deceleration)
 var acceleration_multiplyer = 0
 
-#### Engine Methods ####
-
-func _ready():
-	set_physics_process(true)
-	coffee_timer = $CoffeeTimer
-
-func _physics_process(delta):
-	var collision = self.move_and_collide(process_movement()*delta)
-	if collision:
-		process_collision(collision)
 
 #### Class Methods ####
 
@@ -77,6 +70,10 @@ func enable_cofee_power_up(value, duration):
 	coffee_timer.wait_time = duration
 	coffee_timer.start()
 
+func enable_drill_power_up(drill_uses):
+	drill.set_health(drill_uses)
+	is_holding_drill = true
+
 func _on_CoffeeTimer_timeout():
 	#print("Coffee Timeout")
 	set_acceleration_multiplyer(-power_up_increment)
@@ -93,7 +90,11 @@ func get_falloff_multiplyer():
 	return falloff_multiplyer
 
 func set_falloff_multiplyer(value):
-	falloff_multiplyer += value
+	if is_holding_drill:
+		if value < 0:
+			is_holding_drill = drill.use_drill()
+	else:
+		falloff_multiplyer += value
 
 func get_acceleration_multiplyer():
 	return acceleration_multiplyer
@@ -103,6 +104,19 @@ func set_acceleration_multiplyer(value):
 
 func reset_acceleration_multiplyer():
 	acceleration_multiplyer = 0
+	drill.break_drill()
 
 func toggle_movement_restraint(option):
 	restrain_movement = option
+
+#### Engine Methods ####
+
+func _ready():
+	set_physics_process(true)
+	coffee_timer = $CoffeeTimer
+	drill = $DrillPowerUp
+
+func _physics_process(delta):
+	var collision = self.move_and_collide(process_movement()*delta)
+	if collision:
+		process_collision(collision)

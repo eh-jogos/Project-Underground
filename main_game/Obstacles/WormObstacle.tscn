@@ -1,16 +1,16 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://main_game/Obstacles/WormRedirector.gd" type="Script" id=1]
-[ext_resource path="res://main_game/PowerUps/cofee.png" type="Texture" id=2]
+[ext_resource path="res://main_game/PowerUps/Coffee/cofee.png" type="Texture" id=2]
 
-[sub_resource type="Curve2D" id=2]
+[sub_resource type="Curve2D" id=1]
 
 bake_interval = 5.0
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, -351.425, -0.0777588, 0, 0, 0, 0, 358.009, -0.0777588 )
 }
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 175.83, 92 )
@@ -166,7 +166,7 @@ tracks/2/keys = {
 [node name="WormPath" type="Path2D"]
 
 self_modulate = Color( 0.5, 0.6, 1, 0.7 )
-curve = SubResource( 2 )
+curve = SubResource( 1 )
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pickable" ]
 deceleration_multiplyer = 36
@@ -189,6 +189,7 @@ rect = Rect2( -10, -10, 20, 20 )
 [node name="PathFollow2D" type="PathFollow2D" parent="." index="2"]
 
 position = Vector2( 300.956, -0.0777588 )
+rotation = -1.84473e-009
 z_index = 3
 z_as_relative = false
 offset = 650.789
@@ -207,9 +208,11 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 2
+collision_mask = 0
 audio_bus_override = false
 audio_bus_name = "Master"
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="worm" type="Sprite" parent="PathFollow2D/WormObstacle" index="0"]
 
@@ -220,7 +223,7 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="CollisionArea" type="CollisionShape2D" parent="PathFollow2D/WormObstacle" index="1"]
 
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="PathAnimator" type="AnimationPlayer" parent="PathFollow2D/WormObstacle" index="2"]
 

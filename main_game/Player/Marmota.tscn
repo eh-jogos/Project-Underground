@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://main_game/Player/Marmota.gd" type="Script" id=1]
 [ext_resource path="res://main_game/Player/marmota.png" type="Texture" id=2]
+[ext_resource path="res://main_game/Player/DrillPlayer.gd" type="Script" id=3]
+[ext_resource path="res://main_game/PowerUps/Drill/broca.png" type="Texture" id=4]
 
 [sub_resource type="ParticlesMaterial" id=1]
 
@@ -53,14 +55,21 @@ custom_solver_bias = 0.0
 a = Vector2( 0, 0 )
 b = Vector2( 133, 0 )
 
-[node name="Marmota" type="KinematicBody2D"]
+[sub_resource type="ConvexPolygonShape2D" id=4]
+
+custom_solver_bias = 0.0
+points = PoolVector2Array( 0, 68, 80, -65, -80, -65 )
+
+[node name="Marmota" type="KinematicBody2D" groups=[
+"player",
+]]
 
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Collision", "Transform", "collision" ]
 movement_sensitivity = 66
 min_horizontal_speed = 500
 deceleration = 2
@@ -68,6 +77,7 @@ max_vertical_speed = 15
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
+editor/display_folded = true
 z_index = 2
 z_as_relative = false
 texture = ExtResource( 2 )
@@ -101,14 +111,17 @@ _sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time", "Trans
 [node name="ObstacleCollider" type="CollisionShape2D" parent="." index="1"]
 
 position = Vector2( 0, 72.3781 )
+z_index = 2
 shape = SubResource( 2 )
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="LethalWaterLevel" type="CollisionShape2D" parent="." index="2"]
 
 position = Vector2( -66.717, 7.01495 )
 scale = Vector2( 1, 1.804 )
+z_index = 2
 shape = SubResource( 3 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="CoffeeTimer" type="Timer" parent="." index="3"]
 
@@ -116,6 +129,28 @@ process_mode = 1
 wait_time = 1.0
 one_shot = true
 autostart = false
+
+[node name="DrillPowerUp" type="CollisionShape2D" parent="." index="4"]
+
+visible = false
+position = Vector2( 0, 162.283 )
+scale = Vector2( 0.654199, 0.615729 )
+z_index = 2
+shape = SubResource( 4 )
+disabled = true
+script = ExtResource( 3 )
+_sections_unfolded = [ "Transform", "Z Index" ]
+healthy_color = Color( 0.636719, 0.636719, 0.636719, 1 )
+half_damaged_color = Color( 0.648438, 0.562416, 0.169708, 1 )
+damaged_color = Color( 0.449219, 0.191269, 0.191269, 1 )
+
+[node name="Sprite" type="Sprite" parent="DrillPowerUp" index="0"]
+
+show_behind_parent = true
+position = Vector2( 0, -44.3105 )
+scale = Vector2( 1.52859, 1.62409 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Visibility" ]
 
 [connection signal="timeout" from="CoffeeTimer" to="." method="_on_CoffeeTimer_timeout"]
 

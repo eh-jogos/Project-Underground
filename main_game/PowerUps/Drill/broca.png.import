@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/cofee.png-9395978a770f32b316eefbebfa48a057.stex"
+path="res://.import/broca.png-43ba3a555eb1e864b01a590aad066265.stex"
 
 [deps]
 
-source_file="res://main_game/PowerUps/cofee.png"
-dest_files=[ "res://.import/cofee.png-9395978a770f32b316eefbebfa48a057.stex" ]
+source_file="res://main_game/PowerUps/Drill/broca.png"
+dest_files=[ "res://.import/broca.png-43ba3a555eb1e864b01a590aad066265.stex" ]
 
 [params]
 

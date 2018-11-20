@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://main_game/PowerUps/PowerUpCofee.gd" type="Script" id=1]
-[ext_resource path="res://main_game/PowerUps/cofee.png" type="Texture" id=2]
+[ext_resource path="res://main_game/PowerUps/Coffee/PowerUpCofee.gd" type="Script" id=1]
+[ext_resource path="res://main_game/PowerUps/Coffee/cofee.png" type="Texture" id=2]
 
 [sub_resource type="Gradient" id=1]
 
@@ -72,7 +72,7 @@ _sections_unfolded = [ "Angle", "Angular Velocity", "Animation", "Color", "Gravi
 custom_solver_bias = 0.0
 extents = Vector2( 81.8326, 63.3689 )
 
-[node name="CofeePowerUp" type="Area2D" index="0" groups=[
+[node name="CofeePowerUp" type="Area2D" groups=[
 "obstacles",
 ]]
 
@@ -83,10 +83,11 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+collision_layer = 4
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
-_sections_unfolded = [ "Pickable", "Z Index" ]
+_sections_unfolded = [ "Collision", "Pickable", "Z Index" ]
 acceleration_multiplyer = 2.0
 duration = 3.0
 
