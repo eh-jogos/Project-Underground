@@ -16,12 +16,10 @@ func _on_VisibilityNotifier2D_screen_exited():
 	self.queue_free()
 
 
-func _on_CofeePowerUp_body_entered(body):
+func _on_SkullPowerUp_body_entered(body):
 	if body.is_in_group("player"):
-		body.enable_cofee_power_up(acceleration_multiplyer, duration)
+		body.enable_skull_power_up(acceleration_multiplyer, duration)
 		queue_free()
-	else:
-		print("BODY ISN'T PLAYER: %s"%[body.name])
 
 
 

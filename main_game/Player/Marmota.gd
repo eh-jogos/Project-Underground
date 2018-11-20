@@ -6,7 +6,9 @@ export(int) var deceleration = 2
 export(int) var max_vertical_speed = 10
 
 var coffee_timer
+var skull_timer
 var drill
+var animator
 
 var player_position
 var power_up_increment
@@ -18,7 +20,7 @@ var falloff_speed = 0
 var falloff_multiplyer = 1
 var acceleration = abs(deceleration)
 var acceleration_multiplyer = 0
-
+var normal_collision_masks
 
 #### Class Methods ####
 
@@ -70,15 +72,30 @@ func enable_cofee_power_up(value, duration):
 	coffee_timer.wait_time = duration
 	coffee_timer.start()
 
-func enable_drill_power_up(drill_uses):
-	drill.set_health(drill_uses)
-	is_holding_drill = true
-
 func _on_CoffeeTimer_timeout():
 	#print("Coffee Timeout")
 	set_acceleration_multiplyer(-power_up_increment)
 
 
+func enable_drill_power_up(drill_uses):
+	drill.set_health(drill_uses)
+	is_holding_drill = true
+
+
+func enable_skull_power_up(value, duration):
+	power_up_increment = value + 1
+	set_acceleration_multiplyer(power_up_increment)
+	self.collision_mask = 4
+	skull_timer.wait_time = duration
+	skull_timer.start()
+	animator.play("skull_powerup")
+
+func _on_SkullTimer_timeout():
+	set_acceleration_multiplyer(-power_up_increment)
+	self.collision_mask = normal_collision_masks
+	animator.play("base")
+	
+	
 func _on_ControlStrip_button_down():
 	is_tracking_on = true
 
@@ -114,9 +131,14 @@ func toggle_movement_restraint(option):
 func _ready():
 	set_physics_process(true)
 	coffee_timer = $CoffeeTimer
+	skull_timer = $SkullTimer
 	drill = $DrillPowerUp
+	animator = $AnimationPlayer
+	
+	normal_collision_masks = self.collision_mask
 
 func _physics_process(delta):
 	var collision = self.move_and_collide(process_movement()*delta)
 	if collision:
 		process_collision(collision)
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://main_game/Player/Marmota.gd" type="Script" id=1]
 [ext_resource path="res://main_game/Player/marmota.png" type="Texture" id=2]
@@ -60,16 +60,54 @@ b = Vector2( 133, 0 )
 custom_solver_bias = 0.0
 points = PoolVector2Array( 0, 68, 80, -65, -80, -65 )
 
-[node name="Marmota" type="KinematicBody2D" groups=[
+[sub_resource type="Animation" id=5]
+
+resource_name = "base"
+length = 0.01
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+
+resource_name = "skull_powerup"
+length = 1.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.154706 ) ]
+}
+
+[node name="Marmota" type="KinematicBody2D" index="0" groups=[
 "player",
 ]]
 
 input_pickable = false
 collision_layer = 1
-collision_mask = 1
+collision_mask = 6
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
-_sections_unfolded = [ "Collision", "Transform", "collision" ]
+_sections_unfolded = [ "Material", "Visibility" ]
 movement_sensitivity = 66
 min_horizontal_speed = 500
 deceleration = 2
@@ -77,11 +115,10 @@ max_vertical_speed = 15
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
-editor/display_folded = true
 z_index = 2
 z_as_relative = false
 texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform", "Z Index" ]
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="Particles2D" type="Particles2D" parent="Sprite" index="0"]
 
@@ -130,8 +167,16 @@ wait_time = 1.0
 one_shot = true
 autostart = false
 
-[node name="DrillPowerUp" type="CollisionShape2D" parent="." index="4"]
+[node name="SkullTimer" type="Timer" parent="." index="4"]
 
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[node name="DrillPowerUp" type="CollisionShape2D" parent="." index="5"]
+
+editor/display_folded = true
 visible = false
 position = Vector2( 0, 162.283 )
 scale = Vector2( 0.654199, 0.615729 )
@@ -152,6 +197,19 @@ scale = Vector2( 1.52859, 1.62409 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Visibility" ]
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="6"]
+
+root_node = NodePath("..")
+autoplay = "base"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/base = SubResource( 5 )
+anims/skull_powerup = SubResource( 6 )
+blend_times = [  ]
+
 [connection signal="timeout" from="CoffeeTimer" to="." method="_on_CoffeeTimer_timeout"]
+
+[connection signal="timeout" from="SkullTimer" to="." method="_on_SkullTimer_timeout"]
 
 

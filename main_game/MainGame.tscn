@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://main_game/Levels/earth.png" type="Texture" id=1]
 [ext_resource path="res://main_game/Player/Marmota.tscn" type="PackedScene" id=2]
@@ -8,15 +8,16 @@
 [ext_resource path="res://main_game/Obstacles/WormObstacle.tscn" type="PackedScene" id=6]
 [ext_resource path="res://main_game/PowerUps/Coffee/PowerUpCofee.tscn" type="PackedScene" id=7]
 [ext_resource path="res://main_game/PowerUps/Drill/PowerUpDrill.tscn" type="PackedScene" id=8]
-[ext_resource path="res://main_game/Levels/water.png" type="Texture" id=9]
-[ext_resource path="res://main_game/Levels/touch_area.png" type="Texture" id=10]
+[ext_resource path="res://main_game/PowerUps/Skull/PowerUpSkull.tscn" type="PackedScene" id=9]
+[ext_resource path="res://main_game/Levels/water.png" type="Texture" id=10]
+[ext_resource path="res://main_game/Levels/touch_area.png" type="Texture" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 571, 135 )
 
-[node name="MainGame" type="Node2D" index="0"]
+[node name="MainGame" type="Node2D"]
 
 [node name="Background" type="Sprite" parent="." index="0"]
 
@@ -27,7 +28,6 @@ _sections_unfolded = [ "Transform" ]
 [node name="Marmota" parent="." index="1" instance=ExtResource( 2 )]
 
 position = Vector2( 540, 540 )
-collision_mask = 6
 _sections_unfolded = [ "Collision", "Transform", "Z Index", "collision" ]
 movement_sensitivity = 30
 min_horizontal_speed = 3000
@@ -49,7 +49,7 @@ resources = [ PoolStringArray( "WormObstacle" ), [ ExtResource( 6 ) ] ]
 
 [node name="PowerUpList" type="ResourcePreloader" parent="ObjectGenerator" index="2"]
 
-resources = [ PoolStringArray( "PowerUpCofee", "PowerUpDrill" ), [ ExtResource( 7 ), ExtResource( 8 ) ] ]
+resources = [ PoolStringArray( "PowerUpCofee", "PowerUpDrill", "PowerUpSkull" ), [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ] ]
 
 [node name="Lanes" type="Node2D" parent="ObjectGenerator" index="3"]
 
@@ -84,14 +84,7 @@ wait_time = 2.5
 one_shot = false
 autostart = true
 
-[node name="LongObstacleSpawner1" type="Timer" parent="ObjectGenerator" index="6"]
-
-process_mode = 1
-wait_time = 7.0
-one_shot = false
-autostart = true
-
-[node name="PowerUpSpawner" type="Timer" parent="ObjectGenerator" index="7"]
+[node name="PowerUpSpawner" type="Timer" parent="ObjectGenerator" index="6"]
 
 process_mode = 1
 wait_time = 8.0
@@ -117,7 +110,7 @@ _sections_unfolded = [ "Collision", "Transform", "Z Index" ]
 
 [node name="Sprite" type="Sprite" parent="Water" index="0"]
 
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 _sections_unfolded = [ "Offset" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Water" index="1"]
@@ -174,14 +167,12 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 10 )
+texture_normal = ExtResource( 11 )
 _sections_unfolded = [ "Margin", "Rect", "Textures" ]
 
 [connection signal="timeout" from="ObjectGenerator/ObstacleSpawner1" to="ObjectGenerator" method="_on_ObstacleSpawner_timeout"]
 
 [connection signal="timeout" from="ObjectGenerator/ObstacleSpawner2" to="ObjectGenerator" method="_on_ObstacleSpawner_timeout"]
-
-[connection signal="timeout" from="ObjectGenerator/LongObstacleSpawner1" to="ObjectGenerator" method="_on_LongObstacleSpawner_timeout"]
 
 [connection signal="timeout" from="ObjectGenerator/PowerUpSpawner" to="ObjectGenerator" method="_on_PowerUpSpawner_timeout"]
 
